@@ -7,8 +7,10 @@ RUN apt-get update \
 
 ARG USER
 RUN useradd -ms /bin/sh $USER
+
 USER $USER
-WORKDIR /home/$USER
+WORKDIR /home/$USER/data
+
 
 RUN git clone https://github.com/42-Data-Paris/Nvim-config.git ~/.config/nvim/
 
