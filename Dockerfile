@@ -16,13 +16,17 @@ RUN apt-get update \
 
 RUN npm install -g tree-sitter-cli@latest
 
-RUN mkdir -p /home/$USER/data
 ARG USER
+
 RUN useradd -ms /bin/sh $USER
+RUN mkdir -p /home/$USER/data
 
 USER $USER
 ENV HOME=/home/$USER
+ENV HISTFILE=$HOME/data/.bash_history
 WORKDIR $HOME/data
+
+RUN echo 'PROMPT_COMMAND="history -a; $PROMPT_COMMAND"' >> /home/$USER/.bashrc
 
 RUN git clone https://github.com/42-Data-Paris/Nvim-config.git ~/.config/nvim/
 RUN nvim --headless "+Lazy! sync" +qa
